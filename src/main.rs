@@ -1,5 +1,6 @@
 use std::io;
 use std::mem;
+use std::fmt;
 use rand::Rng;
 
 fn main() {
@@ -21,7 +22,13 @@ fn main() {
     
     struct Structure(i32);
 
-    //println!("This struct `{:?}` won't print...", Structure(3));    
+    impl fmt::Display for Structure {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "{}", self.0)
+        }
+    }
+
+    println!("This struct `{}` won't print...", Structure(3));    
 
     let number: u32 = 30; 
     //let number2: u8 = 256; // i8 is not large enough to hold 256
@@ -30,4 +37,64 @@ fn main() {
     println!("Max u8: {}, min u8: {}", std::u8::MAX, std::u8::MIN);
     //println!("but size of number2 is: {} bytes", mem::size_of_val(&number2));
 
+    struct Vecteur(i32, i32, i32); 
+    let v = Vecteur(1, 2, 3);
+    println!("v is: ({}, {}, {})", v.0, v.1, v.2); 
+
+    impl fmt::Display for Vecteur {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "({}, {}, {})", self.0, self.1, self.2)
+        }
+    }
+
+    println!("v is: {}", v); 
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl fmt::Display for Point {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "x: {}, y: {}", self.x, self.y)
+        }
+    }
+
+    struct MinMax(i32, i32);
+    impl fmt::Display for MinMax {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            if self.0 < self.1 {
+                write!(f, "Max: {}, Min: {}", self.1, self.0)
+            } else {
+                write!(f, "Max: {}, Min: {}", self.0, self.1)
+            }
+        }
+    }
+
+    println!("{}", MinMax(0, 14));
+    println!("{}", MinMax(4, 2));
+
+
+    struct Eleve {
+        nom: String,
+        age: u8,
+        note: f32,
+    }
+
+    impl fmt::Display for Eleve {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "L'eleve s'appelle {}, il a {} ans\n Sa moyenne est de {}", self.nom, self.age, self.note)
+        }
+    }
+    impl fmt::Debug for Eleve {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "Eleve {{ nom: {}, age: {}, note: {} }}", self.nom, self.age, self.note)
+        }
+    }
+
+    let e1 = Eleve { nom: "Alice", age: 20, note: 15.5 };
+    let e2 = Eleve { nom: String::from("Bob"), age: 22, note: 13.0 };
+
+    println!("{}", e1);
+    println!("{:?}", e2);
 }
