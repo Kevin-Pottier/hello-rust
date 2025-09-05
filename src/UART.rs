@@ -15,13 +15,19 @@ pub enum UART_Error {
     NB_ERROR,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+#[derive(Copy, Clone, Eq, Debug)]
 pub enum UART_BaudRate {
     Baud9600 = 9600,
     Baud19200 = 19200,
     Baud38400 = 38400,
     Baud57600 = 57600,
     Baud115200 = 115200,
+}
+
+impl PartialEq for UART_BaudRate {
+    fn eq(&self, other: &Self) -> bool {
+        *self as u32 == *other as u32
+    }
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
