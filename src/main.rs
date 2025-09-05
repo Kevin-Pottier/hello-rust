@@ -92,9 +92,30 @@ fn main() {
         }
     }
 
-    let e1 = Eleve { nom: "Alice", age: 20, note: 15.5 };
+    let e1 = Eleve { nom: String::from("Alice"), age: 20, note: 15.5 };
     let e2 = Eleve { nom: String::from("Bob"), age: 22, note: 13.0 };
 
     println!("{}", e1);
     println!("{:?}", e2);
+
+    println!("Size of e1 is: {} bytes", mem::size_of_val(&e1));
+
+    println!("-----------------------------------");
+    println!("{}", Color { red: 128, green: 255, blue: 90 });
+    println!("{}", Color { red: 0, green: 3, blue: 254 });
+    println!("{}", Color { red: 0, green: 0, blue: 0 });
+
+
+}
+
+struct Color {
+    red: u8,
+    green: u8,
+    blue: u8,
+}
+
+impl fmt::Display for Color {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "RGB ({}, {}, {}) 0x{:02X}{:02X}{:02X}", self.red, self.green, self.blue, self.red, self.green, self.blue)
+    }
 }
