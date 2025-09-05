@@ -7,6 +7,9 @@ use rand::Rng;
 use std::fmt;
 use std::io;
 use std::mem;
+mod UART;
+
+use crate::UART::*;
 
 fn analyze_slice(slice: &[i32]) {
     println!("First element of the slice: {}", slice[0]);
@@ -332,7 +335,27 @@ fn main() {
 
     println!("------------------------------------");
 
+    let config = UART::UART_Config {
+        baud_rate: UART::UART_BaudRate::Baud115200,
+        parity: UART::UART_Parity::None,
+        stop_bits: UART::UART_StopBits::One,
+    };
 
+    let uart_result = UART::UART_init(config);
+
+    match uart_result {
+        Ok(uart) => {
+            println!("UART initialized with config: {:?}", uart.config);
+            // Further UART operations can be performed here
+        }
+        Err(e) => {
+            if e != UART_Error::NO_ERROR {
+                println!("No error during UART initialization.");
+            } else {
+                println!("An error occurred during UART initialization: {:?}", e);
+            }
+        }
+    }
 }
 
 struct Color {
