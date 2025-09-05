@@ -21,6 +21,31 @@ enum Error {
     NB_ERROR,
 }
 
+enum CarType {
+    Sedan,
+    SUV,
+    Coupe,
+    Hatchback,
+    Convertible,
+    Truck,
+    Van,
+}
+
+impl fmt::Debug for CarType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let type_str = match self {
+            CarType::Sedan => "Sedan",
+            CarType::SUV => "SUV",
+            CarType::Coupe => "Coupe",
+            CarType::Hatchback => "Hatchback",
+            CarType::Convertible => "Convertible",
+            CarType::Truck => "Truck",
+            CarType::Van => "Van",
+        };
+        write!(f, "{}", type_str)
+    }
+}
+
 fn main() {
     //#[allow(dead_code)]
     println!("Hello, world!");
@@ -245,8 +270,69 @@ fn main() {
 
     println!("-----------------------------------");
 
+    struct Voiture {
+        marque: String,
+        modele: String,
+        annee: u16,
+        puissance: u16,
+        consommation: f32,
+        km: u32,
+        categorie: CarType,
+    }
+    impl fmt::Display for Voiture {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(
+                f,
+                "{} {} ({}), {} ch, {} L/100km, {} km",
+                self.marque, self.modele, self.annee, self.puissance, self.consommation, self.km
+            )
+        }
+    }
 
-    
+    impl fmt::Debug for Voiture {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(
+                f,
+                "Voiture {{ marque: {}, modele: {}, annee: {}, puissance: {}, consommation: {}, km: {}, categorie: {:?} }}",
+                self.marque,
+                self.modele,
+                self.annee,
+                self.puissance,
+                self.consommation,
+                self.km,
+                self.categorie
+            )
+        }
+    }
+
+    let v1: Voiture = Voiture {
+        marque: String::from("Toyota"),
+        modele: String::from("Corolla"),
+        annee: 2020,
+        puissance: 132,
+        consommation: 6.5,
+        km: 15000,
+        categorie: CarType::Sedan,
+    };
+
+    use crate::CarType::*;
+
+    let v2: Voiture = Voiture {
+        marque: String::from("Ford"),
+        modele: String::from("Mustang"),
+        annee: 2019,
+        puissance: 450,
+        consommation: 12.0,
+        km: 30000,
+        categorie: Coupe,
+    };
+
+    println!("{}", v1);
+    println!("{:?}", v2);
+
+    println!("------------------------------------");
+
+
 }
 
 struct Color {
