@@ -232,6 +232,21 @@ fn main() {
     }
 
     check_error(Error::SPI_INIT_ERROR);
+
+    println!("-----------------------------------");
+
+    type Personne = Eleve;
+    let p1: Personne = Personne {
+        nom: String::from("Charlie"),
+        age: 23,
+        note: 14.0,
+    };
+    println!("{}", p1);
+
+    println!("-----------------------------------");
+
+
+    
 }
 
 struct Color {
