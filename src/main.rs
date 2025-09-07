@@ -363,22 +363,47 @@ fn main() {
     }
 
     println!("------------------------------------");
+    
+    fn fibo_calc_all(n: u128) {
 
-    let n = 40;
-
-    // Récursive (naïve)
-    let t0 = Instant::now();
-    let r = black_box(fibonacci_recursive(n));
-    let tr = t0.elapsed();
+    // Fast doubling
+    let t4 = Instant::now();
+    let fd = black_box(fib_fast_doubling(n as u128));
+    let tfd = t4.elapsed();
+    println!("fib_fd({n}) = {fd}, took {:?}", tfd);
 
     // Itérative
     let t1 = Instant::now();
-    let i = black_box(fibonacci_iterative(n));
+    let i = black_box(fibonacci_iterative(n as u128));
     let ti = t1.elapsed();
-
-    println!("fib_rec({n}) = {r}, took {:?}", tr);
     println!("fib_iter({n}) = {i}, took {:?}", ti);
+    
+    // Matrices
+    let t2 = Instant::now();
+    let m = black_box(fib_matrix(n as u128));
+    let tm = t2.elapsed();
+    println!("fib_mat({n}) = {m}, took {:?}", tm);
+
+    // Mémoïsation
+    let t3 = Instant::now();
+    let me = black_box(fib_memo(n as usize));
+    let tme = t3.elapsed();
+    println!("fib_me({n}) = {me}, took {:?}", tme);
+
+    // Récursive (naïve)
+    let t0 = Instant::now();
+    let r = black_box(fibonacci_recursive(n as u128));
+    let tr = t0.elapsed();
+    println!("fib_rec({n}) = {r}, took {:?}", tr);
+
+    }
+
+    for n in [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600] {
+        fibo_calc_all(n);
+        println!("------------------------------------");
+    }
 }
+
 
 struct Color {
     red: u8,
