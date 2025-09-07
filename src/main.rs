@@ -10,11 +10,13 @@ use std::mem;
 use std::time::Instant;
 use std::hint::black_box;
 
+mod pi_calc;
 mod UART;
 mod fibo;
 
 use crate::UART::*;
 use crate::fibo::*; // Import everything from fibo module
+use crate::pi_calc::*;
 
 fn analyze_slice(slice: &[i32]) {
     println!("First element of the slice: {}", slice[0]);
@@ -391,15 +393,21 @@ fn main() {
     println!("fib_me({n}) = {me}, took {:?}", tme);
 
     // Récursive (naïve)
-    let t0 = Instant::now();
-    let r = black_box(fibonacci_recursive(n as u128));
-    let tr = t0.elapsed();
-    println!("fib_rec({n}) = {r}, took {:?}", tr);
+    // let t0 = Instant::now();
+    // let r = black_box(fibonacci_recursive(n as u128));
+    // let tr = t0.elapsed();
+    // println!("fib_rec({n}) = {r}, took {:?}", tr);
 
     }
 
-    for n in [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600] {
+    for n in 1..100 {
         fibo_calc_all(n);
+        println!("------------------------------------");
+    }
+
+    for n in [10, 50, 100, 200, 500, 1000, 2000, 5000, 10000] {
+        let pi = pi_calculator(n);
+        println!("Approximation of pi with n={} terms: {:.15}", n, pi);
         println!("------------------------------------");
     }
 }
