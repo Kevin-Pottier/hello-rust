@@ -7,9 +7,14 @@ use rand::Rng;
 use std::fmt;
 use std::io;
 use std::mem;
+use std::time::Instant;
+use std::hint::black_box;
+
 mod UART;
+mod fibo;
 
 use crate::UART::*;
+use crate::fibo::*; // Import everything from fibo module
 
 fn analyze_slice(slice: &[i32]) {
     println!("First element of the slice: {}", slice[0]);
@@ -356,6 +361,23 @@ fn main() {
             }
         }
     }
+
+    println!("------------------------------------");
+
+    let n = 40;
+
+    // Récursive (naïve)
+    let t0 = Instant::now();
+    let r = black_box(fibonacci_recursive(n));
+    let tr = t0.elapsed();
+
+    // Itérative
+    let t1 = Instant::now();
+    let i = black_box(fibonacci_iterative(n));
+    let ti = t1.elapsed();
+
+    println!("fib_rec({n}) = {r}, took {:?}", tr);
+    println!("fib_iter({n}) = {i}, took {:?}", ti);
 }
 
 struct Color {
