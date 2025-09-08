@@ -1,11 +1,4 @@
-#![allow(dead_code)]
-#![allow(unused_variables)]
-#![allow(unused_imports)]
-#![allow(non_camel_case_types)]
-
-use std::time::Instant;
-use std::sync::Mutex;
-
+// Fibonacci numbers implementations
 // Matrice 2x2
 #[derive(Clone, Copy, Debug)]
 struct Mat2 {
@@ -51,7 +44,7 @@ pub fn fib_matrix(n: u128) -> u128 {
 
 
 
-
+#[allow(dead_code)]
 pub fn fibonacci_recursive(n: u128) -> u128 {
     if n <= 1 { return n; }
     fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)

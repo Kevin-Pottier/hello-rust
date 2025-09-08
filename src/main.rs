@@ -6,10 +6,10 @@ use std::time::Instant;
 use std::hint::black_box;
 
 mod pi_calc;
-mod UART;
+mod uart;
 mod fibo;
 
-use crate::UART::*;
+use crate::uart::*;
 use crate::fibo::*; // Import everything from fibo module
 use crate::pi_calc::*;
 
