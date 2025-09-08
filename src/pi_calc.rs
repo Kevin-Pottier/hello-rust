@@ -15,7 +15,7 @@ pub fn pi_calculator(n : u128) -> f64 {
         sum += term;
     }
     println!("sum = {:.15}", sum);
-    pi = 2.0 * power(2.0, 1/2)/ power(99.0, 2) * sum; // 1/pi = 2*sqrt(2)/(99^2) * sum
+    pi = 2.0 * sqrt(2.0) / power(99.0, 2) * sum; // 1/pi = 2*sqrt(2)/(99^2) * sum
     print!("1/pi = {:.15}\n", pi);
     pi = 1.0/pi;
     pi
@@ -38,4 +38,8 @@ pub fn power(base: f64, exp: u128) -> f64 {
         result *= base;
     }
     result
+}
+
+pub fn sqrt(x: f64) -> f64 {
+    x.sqrt()
 }
