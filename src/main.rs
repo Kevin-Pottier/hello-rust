@@ -458,6 +458,23 @@ fn main() {
         println!("Approximation of pi with n={} terms: {:.15}", n, pi);
         println!("------------------------------------");
     }
+
+    loop {
+        println!("Enter a number to calculate its Fibonacci (or 'exit' to quit): ");
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("Failed to read line");
+        let input = input.trim();
+        if input.eq_ignore_ascii_case("exit") {
+            break;
+        }
+        match input.parse::<u128>() {
+            Ok(n) => {
+                fibo_calc_all(n);
+                println!("------------------------------------");
+            }
+            Err(_) => println!("Please enter a valid positive integer or 'exit'."),
+        }
+    }
 }
 
 
