@@ -2,6 +2,7 @@
 #![allow(unused_variables)]
 #![allow(unused_imports)]
 #![allow(non_camel_case_types)]
+#![allow(non_snake_case)]
 
 use rand::Rng;
 use std::io;

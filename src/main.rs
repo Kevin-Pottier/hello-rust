@@ -2,6 +2,7 @@
 #![allow(unused_variables)]
 #![allow(unused_imports)]
 #![allow(non_camel_case_types)]
+#![allow(non_snake_case)]
 
 use rand::Rng;
 use std::fmt;
@@ -405,7 +406,7 @@ fn main() {
         println!("------------------------------------");
     }
 
-    for n in [10, 50, 100, 200, 500, 1000, 2000, 5000, 10000] {
+    for n in 1..20 {
         let pi = pi_calculator(n);
         println!("Approximation of pi with n={} terms: {:.15}", n, pi);
         println!("------------------------------------");
