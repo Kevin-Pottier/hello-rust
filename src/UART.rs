@@ -1,23 +1,16 @@
 #![allow(dead_code)]
-#![allow(unused_variables)]
-#![allow(unused_imports)]
-#![allow(non_camel_case_types)]
-#![allow(non_snake_case)]
-
-use rand::Rng;
-use std::io;
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
-pub enum UART_Error {
-    UART_INIT_ERROR,
-    UART_WRITE_ERROR,
-    UART_READ_ERROR,
-    NO_ERROR,
-    NB_ERROR,
+pub enum UartError {
+    InitError,
+    WriteError,
+    ReadError,
+    NoError,
+    NbError,
 }
 
 #[derive(Copy, Clone, Eq, Debug)]
-pub enum UART_BaudRate {
+pub enum UartBaudRate {
     Baud9600 = 9600,
     Baud19200 = 19200,
     Baud38400 = 38400,
@@ -25,33 +18,33 @@ pub enum UART_BaudRate {
     Baud115200 = 115200,
 }
 
-impl PartialEq for UART_BaudRate {
+impl PartialEq for UartBaudRate {
     fn eq(&self, other: &Self) -> bool {
         *self as u32 == *other as u32
     }
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
-pub enum UART_Parity {
+pub enum UartParity {
     None,
     Even,
     Odd,
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
-pub enum UART_StopBits {
+pub enum UartStopBits {
     One,
     Two,
 }
 
 #[derive(Clone, Debug, Eq)]
-pub struct UART_Config {
-    pub baud_rate: UART_BaudRate,
-    pub parity: UART_Parity,
-    pub stop_bits: UART_StopBits,
+pub struct UartConfig {
+    pub baud_rate: UartBaudRate,
+    pub parity: UartParity,
+    pub stop_bits: UartStopBits,
 }
 
-impl PartialEq for UART_Config {
+impl PartialEq for UartConfig {
     fn eq(&self, other: &Self) -> bool {
         self.baud_rate as u8 == other.baud_rate as u8
             && self.parity as u8 == other.parity as u8
@@ -60,23 +53,23 @@ impl PartialEq for UART_Config {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct UART {
-    pub config: UART_Config,
+pub struct Uart {
+    pub config: UartConfig,
     pub is_initialized: bool,
-    pub TX_buffer: Vec<u8>,
-    pub RX_buffer: Vec<u8>,
+    pub tx_buffer: Vec<u8>,
+    pub rx_buffer: Vec<u8>,
 }
 
-pub fn UART_init(config: UART_Config) -> Result<UART, UART_Error> {
+pub fn uart_init(config: UartConfig) -> Result<Uart, UartError> {
     // Simulate initialization logic
-    if config.baud_rate == UART_BaudRate::Baud9600 {
-        Ok(UART {
+    if config.baud_rate == UartBaudRate::Baud9600 {
+        Ok(Uart {
             config,
             is_initialized: true,
-            TX_buffer: Vec::new(),
-            RX_buffer: Vec::new(),
+            tx_buffer: Vec::new(),
+            rx_buffer: Vec::new(),
         })
     } else {
-        Err(UART_Error::UART_INIT_ERROR)
+        Err(UartError::InitError)
     }
 }

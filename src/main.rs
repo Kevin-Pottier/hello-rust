@@ -1,9 +1,3 @@
-#![allow(dead_code)]
-#![allow(unused_variables)]
-#![allow(unused_imports)]
-#![allow(non_camel_case_types)]
-#![allow(non_snake_case)]
-
 use rand::Rng;
 use std::fmt;
 use std::io;
@@ -23,13 +17,13 @@ fn analyze_slice(slice: &[i32]) {
     println!("First element of the slice: {}", slice[0]);
     println!("The slice has {} elements", slice.len());
 }
-
+#[allow(dead_code)]
 enum Error {
-    UART_INIT_ERROR,
-    SPI_INIT_ERROR,
-    I2C_INIT_ERROR,
-    NO_ERROR,
-    NB_ERROR,
+    UartInitError,
+    SpiInitError,
+    I2cInitError,
+    NoError,
+    NbError,
 }
 
 enum CarType {
@@ -120,6 +114,12 @@ fn main() {
             write!(f, "x: {}, y: {}", self.x, self.y)
         }
     }
+
+    // Construct and use a Point instance to avoid the warning
+    let p = Point { x: 5, y: 10 };
+    println!("Point is: {}", p);
+
+    println!("-----------------------------------");
 
     struct MinMax(i32, i32);
     impl fmt::Display for MinMax {
@@ -259,15 +259,15 @@ fn main() {
 
     fn check_error(err: Error) {
         match err {
-            Error::UART_INIT_ERROR => println!("UART init error"),
-            Error::SPI_INIT_ERROR => println!("SPI init error"),
-            Error::I2C_INIT_ERROR => println!("I2C init error"),
-            Error::NO_ERROR => println!("No error"),
-            Error::NB_ERROR => println!("Number of errors"),
+            Error::UartInitError => println!("UART init error"),
+            Error::SpiInitError => println!("SPI init error"),
+            Error::I2cInitError => println!("I2C init error"),
+            Error::NoError => println!("No error"),
+            Error::NbError => println!("Number of errors"),
         }
     }
 
-    check_error(Error::SPI_INIT_ERROR);
+    check_error(Error::SpiInitError);
 
     println!("-----------------------------------");
 
@@ -338,18 +338,65 @@ fn main() {
         categorie: Coupe,
     };
 
+    // Construct instances for all CarType variants to avoid warnings
+    let _v_suv = Voiture {
+        marque: String::from("Nissan"),
+        modele: String::from("X-Trail"),
+        annee: 2021,
+        puissance: 170,
+        consommation: 7.5,
+        km: 10000,
+        categorie: SUV,
+    };
+    let _v_hatchback = Voiture {
+        marque: String::from("Volkswagen"),
+        modele: String::from("Golf"),
+        annee: 2018,
+        puissance: 110,
+        consommation: 5.8,
+        km: 40000,
+        categorie: Hatchback,
+    };
+    let _v_convertible = Voiture {
+        marque: String::from("Mazda"),
+        modele: String::from("MX-5"),
+        annee: 2022,
+        puissance: 184,
+        consommation: 6.9,
+        km: 5000,
+        categorie: Convertible,
+    };
+    let _v_truck = Voiture {
+        marque: String::from("Ford"),
+        modele: String::from("F-150"),
+        annee: 2017,
+        puissance: 290,
+        consommation: 10.5,
+        km: 60000,
+        categorie: Truck,
+    };
+    let _v_van = Voiture {
+        marque: String::from("Renault"),
+        modele: String::from("Kangoo"),
+        annee: 2015,
+        puissance: 90,
+        consommation: 6.2,
+        km: 80000,
+        categorie: Van,
+    };
+
     println!("{}", v1);
     println!("{:?}", v2);
 
     println!("------------------------------------");
 
-    let config = UART::UART_Config {
-        baud_rate: UART::UART_BaudRate::Baud115200,
-        parity: UART::UART_Parity::None,
-        stop_bits: UART::UART_StopBits::One,
+    let config = UartConfig {
+        baud_rate: UartBaudRate::Baud115200,
+        parity: UartParity::None,
+        stop_bits: UartStopBits::One,
     };
 
-    let uart_result = UART::UART_init(config);
+    let uart_result = uart_init(config);
 
     match uart_result {
         Ok(uart) => {
@@ -357,7 +404,7 @@ fn main() {
             // Further UART operations can be performed here
         }
         Err(e) => {
-            if e != UART_Error::NO_ERROR {
+            if e != UartError::NoError {
                 println!("No error during UART initialization.");
             } else {
                 println!("An error occurred during UART initialization: {:?}", e);
@@ -406,7 +453,7 @@ fn main() {
         println!("------------------------------------");
     }
 
-    for n in 1..20 {
+    for n in 1..10 {
         let pi = pi_calculator(n);
         println!("Approximation of pi with n={} terms: {:.15}", n, pi);
         println!("------------------------------------");
